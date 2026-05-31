@@ -3,69 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎂 Happy Birthday 🎉</title>
+<title>Happy Birthday 🎂</title>
 
 <style>
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-    font-family:Arial,sans-serif;
-    min-height:100vh;
-    overflow:hidden;
-    background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+text-align:center;
 }
 
 .card{
-    background:white;
-    padding:35px;
-    border-radius:25px;
-    width:90%;
-    max-width:600px;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
-    z-index:10;
+background:white;
+padding:30px;
+border-radius:20px;
+max-width:600px;
+width:90%;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+z-index:10;
 }
 
 h1{
-    color:#ff4081;
-    margin-bottom:15px;
+color:#ff4081;
+margin-bottom:10px;
 }
 
 button{
-    margin-top:15px;
-    padding:14px 25px;
-    border:none;
-    border-radius:12px;
-    background:#ff4081;
-    color:white;
-    cursor:pointer;
-    font-size:16px;
+margin-top:15px;
+padding:12px 25px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#ff4081;
+color:white;
+cursor:pointer;
 }
 
 #pesan{
-    display:none;
-    margin-top:20px;
-    line-height:1.8;
-    animation:fade .8s;
+display:none;
+margin-top:20px;
+line-height:1.8;
+animation:fade 1s;
 }
 
 @keyframes fade{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 .balon{
-    position:absolute;
-    bottom:-150px;
-    font-size:40px;
-    animation:naik linear infinite;
+position:absolute;
+bottom:-100px;
+font-size:40px;
+animation:naik linear infinite;
 }
 
 @keyframes naik{
@@ -80,7 +86,7 @@ transform:translateY(-120vh);
 .confetti{
 position:absolute;
 font-size:20px;
-animation:jatuh linear infinite;
+animation:jatuh linear forwards;
 }
 
 @keyframes jatuh{
@@ -92,67 +98,50 @@ transform:translateY(110vh);
 }
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="card">
 
 <h1>🎂 Happy Birthday 🎉</h1>
 
-<p>Ada pesan spesial buat kamu ✨</p>
+<p>Ada sesuatu buat kamu ✨</p>
 
 <button onclick="bukaUcapan()">
-💖 Buka Ucapan 💖
+💖 Klik Di Sini 💖
 </button>
 
 <div id="pesan">
 
-<h2>🥳 Selamat Ulang Tahun Dewi Nastiti 🥳</h2>
-
-<p>
-Hari ini adalah hari spesialmu.
-Semoga setiap langkah yang kamu ambil
-dipenuhi kebahagiaan dan keberuntungan.
-✨
-</p>
+<h2>🥳 Selamat Ulang Tahun! 🥳</h2>
 
 <p>
 Semoga sehat selalu,
-dikelilingi orang-orang baik,
+bahagia selalu,
 dan semua wishlist yang kamu simpan
-satu per satu menjadi kenyataan.
-🌷
+satu per satu menjadi kenyataan. ✨
 </p>
 
 <p>
-Semoga tahun ini membawa lebih banyak senyum,
-lebih banyak cerita indah,
-lebih banyak rezeki,
-dan lebih sedikit drama.
-😆
+Semoga tahun ini dipenuhi
+kebahagiaan, rezeki, keberuntungan,
+dan orang-orang baik di sekitarmu. 🌷
 </p>
 
 <p>
-Tetap jadi dirimu yang hebat,
-jangan lupa bahagia,
-dan semoga semua doa baikmu segera terkabul.
-🤍
+Tetap semangat menjalani hari,
+jangan terlalu banyak overthinking,
+dan jangan lupa tersenyum. 😊
 </p>
 
-<h3>🎂 Happy Birthday 🎉</h3>
-
 <p>
-Dari seseorang yang mendoakan yang terbaik untukmu 💖
+🎂 Selamat Ulang Tahun 🎂
 </p>
 
 </div>
 
 </div>
-
-<audio id="musik" loop>
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
 
 <script>
 
@@ -160,15 +149,23 @@ function bukaUcapan(){
 
 document.getElementById("pesan").style.display="block";
 
-document.getElementById("musik").play();
+buatConfetti();
 
-for(let i=0;i<30;i++){
+mainkanLagu();
+}
+
+function buatConfetti(){
+
+for(let i=0;i<40;i++){
 
 let c=document.createElement("div");
+
 c.className="confetti";
+
 c.innerHTML=["🎉","🎊","✨","🎂","💖"][Math.floor(Math.random()*5)];
 
 c.style.left=Math.random()*100+"vw";
+
 c.style.animationDuration=(Math.random()*3+2)+"s";
 
 document.body.appendChild(c);
@@ -179,18 +176,76 @@ c.remove();
 }
 }
 
-for(let i=0;i<12;i++){
+for(let i=0;i<15;i++){
 
 let b=document.createElement("div");
+
 b.className="balon";
 
-b.innerHTML=["🎈","🎈","🎈","🎉"][Math.floor(Math.random()*4)];
+b.innerHTML="🎈";
 
 b.style.left=Math.random()*100+"vw";
-b.style.animationDuration=(Math.random()*10+10)+"s";
+
+b.style.animationDuration=(Math.random()*8+8)+"s";
 
 document.body.appendChild(b);
 }
+
+function mainkanLagu(){
+
+const AudioContext =
+window.AudioContext ||
+window.webkitAudioContext;
+
+const ctx = new AudioContext();
+
+const nada = [
+261.63,
+261.63,
+293.66,
+261.63,
+349.23,
+329.63,
+
+261.63,
+261.63,
+293.66,
+261.63,
+392.00,
+349.23,
+
+261.63,
+261.63,
+523.25,
+440.00,
+349.23,
+329.63,
+293.66
+];
+
+let waktu = ctx.currentTime;
+
+nada.forEach((freq)=>{
+
+const osc = ctx.createOscillator();
+const gain = ctx.createGain();
+
+osc.connect(gain);
+gain.connect(ctx.destination);
+
+osc.frequency.value = freq;
+osc.type = "sine";
+
+gain.gain.setValueAtTime(0.2,waktu);
+
+osc.start(waktu);
+osc.stop(waktu+0.35);
+
+waktu += 0.4;
+
+});
+}
+
 </script>
 
 </body>
