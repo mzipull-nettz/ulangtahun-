@@ -212,44 +212,35 @@ Bb4:466.16,
 C5:523.25
 };
 
-let t=0;
+let t = 0;
 
-const lagu=[
-[nada.C4,0.4],
-[nada.C4,0.4],
-[nada.D4,0.8],
-[nada.C4,0.8],
-[nada.F4,0.8],
-[nada.E4,1.2],
+const lagu = [
 
-[nada.C4,0.4],
-[nada.C4,0.4],
-[nada.D4,0.8],
-[nada.C4,0.8],
-[nada.G4,0.8],
-[nada.F4,1.2],
+/* 🎂 HAPPY BIRTHDAY PHASE 1 */
+[nada.C4,0.4],[nada.C4,0.4],[nada.D4,0.8],[nada.C4,0.8],
+[nada.F4,0.8],[nada.E4,1.2],
 
-[nada.C4,0.4],
-[nada.C4,0.4],
-[nada.C5,0.8],
-[nada.A4,0.8],
-[nada.F4,0.8],
-[nada.E4,0.8],
-[nada.D4,1.2],
+/* 🎂 PHASE 2 (lebih panjang & ulang) */
+[nada.C4,0.4],[nada.C4,0.4],[nada.D4,0.8],[nada.C4,0.8],
+[nada.G4,0.8],[nada.F4,1.2],
 
-[nada.Bb4,0.4],
-[nada.Bb4,0.4],
-[nada.A4,0.8],
-[nada.F4,0.8],
-[nada.G4,0.8],
-[nada.F4,1.5]
+/* 🎂 PHASE 3 (naik ke C5 biar lebih “happy”) */
+[nada.C4,0.4],[nada.C4,0.4],[nada.C5,0.8],[nada.A4,0.8],
+[nada.F4,0.8],[nada.E4,0.8],[nada.D4,1.2],
+
+/* 🎂 PHASE 4 (lebih emosional / slow ending) */
+[nada.Bb4,0.4],[nada.Bb4,0.4],[nada.A4,0.8],[nada.F4,0.8],
+[nada.G4,0.8],[nada.F4,1.2],
+
+/* 🎂 FINAL PART (penutup panjang & terasa “ulang tahun”) */
+[nada.C4,0.6],[nada.D4,0.6],[nada.E4,0.6],
+[nada.F4,0.8],[nada.E4,0.8],[nada.D4,0.8],
+[nada.C4,1.5]
 ];
 
 for(let i=0;i<lagu.length;i++){
-
 mainkanNada(lagu[i][0],lagu[i][1],t);
-
-t+=lagu[i][1];
+t += lagu[i][1];
 }
 }
 
