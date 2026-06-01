@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎂 Happy Birthday Premium 🎉</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+/* GLASS CARD */
+.card{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border:1px solid rgba(255,255,255,0.3);
+
+    width:90%;
+    max-width:600px;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.3);
+    text-align:center;
+    color:white;
+    z-index:10;
+    animation:fade 1s ease;
+}
+
+@keyframes fade{
+    from{opacity:0;transform:scale(0.8);}
+    to{opacity:1;transform:scale(1);}
+}
+
+h1{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+p{
+    margin:10px 0;
+    font-size:16px;
+}
+
+button{
+    margin-top:15px;
+    padding:14px 26px;
+    border:none;
+    border-radius:14px;
+    background:#ff2e7a;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+/* PESAN */
+#pesan{
+    display:none;
+    margin-top:20px;
+    animation:up 1s ease;
+    line-height:1.7;
+}
+
+@keyframes up{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* BALON PREMIUM */
+.balloon{
+    position:absolute;
+    bottom:-120px;
+    font-size:40px;
+    animation:floatUp linear infinite;
+    opacity:0.85;
+    filter:drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+}
+
+@keyframes floatUp{
+    from{transform:translateY(0) rotate(0deg);}
+    to{transform:translateY(-120vh) rotate(360deg);}
+}
+
+/* CANVAS FIREWORK */
+canvas{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="card">
+
+<h1>🎂 Happy Birthday 🎉</h1>
+<p>Tekan tombol untuk kejutan spesial ✨</p>
+
+<button onclick="start()">🎁 Buka Kejutan</button>
+
+<div id="pesan">
+
+<h2>🥳 Selamat Ulang Tahun!</h2>
+
+<p>Semoga panjang umur & sehat selalu 💖</p>
+<p>Semoga semua impianmu tercapai 🌷</p>
+<p>Dan hidupmu penuh kebahagiaan ✨</p>
+
+<h3>🎂 Happy Birthday 🎂</h3>
+
+</div>
+
+</div>
+
+<script>
+
+/* ================= AUDIO ================= */
+let audioCtx;
+
+function initAudio(){
+    if(!audioCtx){
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if(audioCtx.state === "suspended"){
+        audioCtx.resume();
+    }
+}
+
+/* ================= STATE ================= */
+let done = false;
+
+/* ================= START ================= */
+function start(){
+if(done) return;
+done = true;
+
+document.getElementById("pesan").style.display="block";
+
+spawnBalloon();
+music();
+fireworks();
+}
+
+/* ================= BALLOON ================= */
+function spawnBalloon(){
+for(let i=0;i<18;i++){
+let b=document.createElement("div");
+b.className="balloon";
+b.innerHTML="🎈";
+
+b.style.left=Math.random()*100+"vw";
+b.style.animationDuration=(Math.random()*8+6)+"s";
+b.style.fontSize=(Math.random()*20+25)+"px";
+
+document.body.appendChild(b);
+}
+}
+
+/* ================= NOTE ================= */
+function play(freq,time){
+initAudio();
+
+const osc = audioCtx.createOscillator();
+const gain = audioCtx.createGain();
+
+osc.type="sine";
+osc.frequency.value=freq;
+
+gain.gain.setValueAtTime(0.25,audioCtx.currentTime);
+
+osc.connect(gain);
+gain.connect(audioCtx.destination);
+
+osc.start();
+osc.stop(audioCtx.currentTime + time/1000);
+}
+
+/* ================= MUSIC ================= */
+function sleep(ms){
+return new Promise(r=>setTimeout(r,ms));
+}
+
+async function music(){
+
+const n={
+C4:261.63,D4:293.66,E4:329.63,F4:349.23,
+G4:392.00,A4:440.00,Bb4:466.16,C5:523.25
+};
+
+const song=[
+[n.C4,400],[n.C4,400],[n.D4,800],[n.C4,800],
+[n.F4,800],[n.E4,1200],
+
+[n.C4,400],[n.C4,400],[n.D4,800],[n.C4,800],
+[n.G4,800],[n.F4,1200],
+
+[n.C4,400],[n.C4,400],[n.C5,800],[n.A4,800],
+[n.F4,800],[n.E4,800],[n.D4,1200],
+
+[n.Bb4,400],[n.Bb4,400],[n.A4,800],[n.F4,800],
+[n.G4,800],[n.F4,1500]
+];
+
+for(let i=0;i<song.length;i++){
+play(song[i][0],song[i][1]);
+await sleep(song[i][1]);
+}
+}
+
+/* ================= FIREWORKS ================= */
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+function fireworks(){
+setInterval(()=>{
+for(let i=0;i<20;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height/2,
+vx:(Math.random()-0.5)*6,
+vy:(Math.random()-0.5)*6,
+life:100
+});
+}
+},800);
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+particles.forEach((p,i)=>{
+p.x += p.vx;
+p.y += p.vy;
+p.life--;
+
+ctx.fillStyle="white";
+ctx.fillRect(p.x,p.y,3,3);
+
+if(p.life<=0){
+particles.splice(i,1);
+}
+});
+
+requestAnimationFrame(animate);
+}
+
+animate();
+
+</script>
+
+</body>
+</html>
