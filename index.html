@@ -6,31 +6,51 @@
 <title>🎂 Happy Birthday 🎉</title>
 
 <style>
-body{
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
     font-family:Arial,sans-serif;
     background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb);
     min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    text-align:center;
     overflow:hidden;
+    text-align:center;
 }
 
+/* CARD */
 .card{
-    background:white;
+    background:rgba(255,255,255,0.95);
     width:90%;
     max-width:600px;
     padding:30px;
     border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    box-shadow:0 15px 40px rgba(0,0,0,0.2);
+    animation:fadeIn 1s ease;
     z-index:10;
 }
 
-h1{ color:#ff4081; }
+@keyframes fadeIn{
+    from{opacity:0;transform:scale(0.9);}
+    to{opacity:1;transform:scale(1);}
+}
+
+h1{
+    color:#ff4081;
+    margin-bottom:10px;
+}
+
+p{
+    margin:10px 0;
+}
 
 button{
+    margin-top:15px;
     padding:14px 25px;
     border:none;
     border-radius:12px;
@@ -38,41 +58,50 @@ button{
     color:white;
     font-size:16px;
     cursor:pointer;
+    transition:0.2s;
 }
 
+button:hover{
+    transform:scale(1.05);
+}
+
+/* PESAN */
 #pesan{
     display:none;
     margin-top:20px;
-    line-height:1.8;
-    animation:muncul 1s;
+    line-height:1.7;
+    animation:show 1s ease;
 }
 
-@keyframes muncul{
+@keyframes show{
     from{opacity:0;transform:translateY(20px);}
     to{opacity:1;transform:translateY(0);}
 }
 
+/* BALON */
 .balon{
     position:absolute;
     bottom:-120px;
     font-size:40px;
-    animation:naik linear infinite;
+    animation:up linear infinite;
+    opacity:0.8;
 }
 
-@keyframes naik{
+@keyframes up{
     from{transform:translateY(0);}
     to{transform:translateY(-120vh);}
 }
 
+/* CONFETTI */
 .confetti{
     position:absolute;
     top:-50px;
-    font-size:20px;
-    animation:jatuh linear forwards;
+    font-size:18px;
+    animation:down linear forwards;
 }
 
-@keyframes jatuh{
-    to{transform:translateY(110vh);}
+@keyframes down{
+    to{transform:translateY(110vh) rotate(360deg);}
 }
 </style>
 </head>
@@ -82,18 +111,17 @@ button{
 <div class="card">
 
 <h1>🎂 Happy Birthday 🎉</h1>
-
 <p>Ada pesan spesial buat kamu ✨</p>
 
-<button onclick="bukaUcapan()">💖 Klik Di Sini 💖</button>
+<button onclick="start()">💖 Klik Di Sini 💖</button>
 
 <div id="pesan">
 
-<h2>🥳 Selamat Ulang Tahun! 🥳</h2>
+<h2>🥳 Selamat Ulang Tahun!</h2>
 
-<p>Semoga sehat selalu, bahagia selalu, dan semua wishlist kamu tercapai ✨</p>
-<p>Semoga tahun ini penuh keberuntungan 🌷</p>
-<p>Tetap semangat dan jadi lebih baik 💖</p>
+<p>Semoga sehat selalu dan bahagia selalu ✨</p>
+<p>Semoga semua impianmu tercapai 🌷</p>
+<p>Tetap jadi pribadi yang lebih baik setiap hari 💖</p>
 
 <h3>🎂 Happy Birthday 🎂</h3>
 
@@ -103,9 +131,8 @@ button{
 
 <script>
 
-/* ================= AUDIO FIX ================= */
-let audioCtx;
-let sudahMain = false;
+/* ================= AUDIO ================= */
+let audioCtx = null;
 
 function initAudio(){
     if(!audioCtx){
@@ -116,60 +143,61 @@ function initAudio(){
     }
 }
 
-/* ================= BUTTON ================= */
-function bukaUcapan(){
+/* ================= STATE ================= */
+let played = false;
 
-if(sudahMain) return;
-sudahMain = true;
+/* ================= START ================= */
+function start(){
+if(played) return;
+played = true;
 
 document.getElementById("pesan").style.display="block";
 
-buatConfetti();
-mainkanLagu();
+confetti();
+music();
 }
 
-/* ================= CONFETTI SAFE ================= */
-let confettiCount = 0;
+/* ================= CONFETTI ================= */
+let confCount = 0;
 
-function buatConfetti(){
+function confetti(){
 
-if(confettiCount > 120) return;
+if(confCount > 100) return;
 
-for(let i=0;i<40;i++){
-
-let c=document.createElement("div");
+for(let i=0;i<35;i++){
+let c = document.createElement("div");
 c.className="confetti";
 c.innerHTML=["🎉","🎊","✨","💖","🎂"][Math.floor(Math.random()*5)];
 
-c.style.left=Math.random()*100+"vw";
-c.style.fontSize=(Math.random()*10+15)+"px";
-c.style.animationDuration=(Math.random()*3+2)+"s";
+c.style.left = Math.random()*100+"vw";
+c.style.fontSize = (Math.random()*10+15)+"px";
+c.style.animationDuration = (Math.random()*3+2)+"s";
 
 document.body.appendChild(c);
 
-confettiCount++;
+confCount++;
 
 setTimeout(()=>{
 c.remove();
-confettiCount--;
+confCount--;
 },5000);
-
 }
 }
 
 /* ================= BALON ================= */
-for(let i=0;i<15;i++){
+for(let i=0;i<12;i++){
 let b=document.createElement("div");
 b.className="balon";
 b.innerHTML="🎈";
+
 b.style.left=Math.random()*100+"vw";
 b.style.animationDuration=(Math.random()*8+8)+"s";
+
 document.body.appendChild(b);
 }
 
-/* ================= AUDIO NOTE ================= */
-function playNote(freq,duration){
-
+/* ================= NOTE ================= */
+function playNote(freq,time){
 initAudio();
 
 const osc = audioCtx.createOscillator();
@@ -178,23 +206,23 @@ const gain = audioCtx.createGain();
 osc.type="sine";
 osc.frequency.value=freq;
 
-gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+gain.gain.setValueAtTime(0.2,audioCtx.currentTime);
 
 osc.connect(gain);
 gain.connect(audioCtx.destination);
 
 osc.start();
-osc.stop(audioCtx.currentTime + duration/1000);
+osc.stop(audioCtx.currentTime + time/1000);
 }
 
-/* ================= LAGU (FULL + STABIL) ================= */
+/* ================= MUSIC ================= */
 function sleep(ms){
 return new Promise(r=>setTimeout(r,ms));
 }
 
-async function mainkanLagu(){
+async function music(){
 
-const nada={
+const n={
 C4:261.63,
 D4:293.66,
 E4:329.63,
@@ -205,24 +233,23 @@ Bb4:466.16,
 C5:523.25
 };
 
-const lagu = [
+const song=[
+[n.C4,400],[n.C4,400],[n.D4,800],[n.C4,800],
+[n.F4,800],[n.E4,1200],
 
-[nada.C4,400],[nada.C4,400],[nada.D4,800],[nada.C4,800],
-[nada.F4,800],[nada.E4,1200],
+[n.C4,400],[n.C4,400],[n.D4,800],[n.C4,800],
+[n.G4,800],[n.F4,1200],
 
-[nada.C4,400],[nada.C4,400],[nada.D4,800],[nada.C4,800],
-[nada.G4,800],[nada.F4,1200],
+[n.C4,400],[n.C4,400],[n.C5,800],[n.A4,800],
+[n.F4,800],[n.E4,800],[n.D4,1200],
 
-[nada.C4,400],[nada.C4,400],[nada.C5,800],[nada.A4,800],
-[nada.F4,800],[nada.E4,800],[nada.D4,1200],
-
-[nada.Bb4,400],[nada.Bb4,400],[nada.A4,800],[nada.F4,800],
-[nada.G4,800],[nada.F4,1500]
+[n.Bb4,400],[n.Bb4,400],[n.A4,800],[n.F4,800],
+[n.G4,800],[n.F4,1500]
 ];
 
-for(let i=0;i<lagu.length;i++){
-playNote(lagu[i][0], lagu[i][1]);
-await sleep(lagu[i][1]);
+for(let i=0;i<song.length;i++){
+playNote(song[i][0],song[i][1]);
+await sleep(song[i][1]);
 }
 }
 
